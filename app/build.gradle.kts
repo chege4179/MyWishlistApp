@@ -124,8 +124,6 @@ dependencies {
     //timber
     implementation("com.jakewharton.timber:timber:5.0.1")
 
-    //charts
-    implementation ("com.github.tehras:charts:0.2.4-alpha")
 
     // date picker
     implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")

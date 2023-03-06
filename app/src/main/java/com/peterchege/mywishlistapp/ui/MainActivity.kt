@@ -25,6 +25,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.peterchege.mywishlistapp.ui.navigation.AppNavigation
 import com.peterchege.mywishlistapp.ui.theme.MyWishListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    val navController = rememberNavController()
+                    AppNavigation(navHostController = navController)
                 }
             }
         }
