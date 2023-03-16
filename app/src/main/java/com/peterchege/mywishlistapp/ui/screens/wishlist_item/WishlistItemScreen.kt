@@ -13,48 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.wishlist_screen
+package com.peterchege.mywishlistapp.ui.screens.wishlist_item
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.peterchege.mywishlistapp.core.util.Screens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun WishListScreen(
     navController: NavController,
-    viewModel: WishlistScreenViewModel = hiltViewModel()
+    viewModel: WishlistItemScreenViewModel = hiltViewModel()
 ) {
     Scaffold(
-        modifier= Modifier.fillMaxSize(),
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = MaterialTheme.colors.background,
-                onClick = {
-                    navController.navigate(Screens.CREATE_WISHLIST_ITEM_SCREEN)
-                }
+        modifier = Modifier.fillMaxSize(),
 
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    tint = MaterialTheme.colors.primary,
-                    contentDescription = null
-                )
-            }
-
-        }
-    ) {
+        ) {
         Column(
-            modifier= Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 text = "WishList Item Screen"

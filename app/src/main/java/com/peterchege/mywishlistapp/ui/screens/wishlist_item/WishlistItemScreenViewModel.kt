@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.wishlist_screen
+package com.peterchege.mywishlistapp.ui.screens.wishlist_item
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class WishlistScreenViewModel @Inject constructor(
+class WishlistItemScreenViewModel @Inject constructor(
 
 ): ViewModel(){
     init {

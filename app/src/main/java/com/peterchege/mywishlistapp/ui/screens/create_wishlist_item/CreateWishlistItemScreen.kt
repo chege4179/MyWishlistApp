@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.create_wishlist_item_screen
+package com.peterchege.mywishlistapp.ui.screens.create_wishlist_item
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -28,14 +28,14 @@ import androidx.navigation.NavController
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CreateWishlistItemScreen(
-    navController:NavController,
+    navController: NavController,
     viewModel: CreateWishlistItemScreenViewModel = hiltViewModel()
 ) {
     Scaffold(
-        modifier=Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier=Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 text = "Create WishList Item Screen"

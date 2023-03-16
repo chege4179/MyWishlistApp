@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.create_wishlist_item_screen
+package com.peterchege.mywishlistapp.ui.screens.create_wishlist_item
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

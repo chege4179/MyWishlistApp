@@ -15,27 +15,28 @@
  */
 package com.peterchege.mywishlistapp.ui.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.peterchege.mywishlistapp.core.util.Screens
-import com.peterchege.mywishlistapp.ui.screens.create_wishlist_item_screen.CreateWishlistItemScreen
-import com.peterchege.mywishlistapp.ui.screens.wishlist_screen.WishListScreen
+import com.peterchege.mywishlistapp.ui.screens.create_wishlist_item.CreateWishlistItemScreen
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AppNavigation(
-    navHostController:NavHostController,
+    navHostController: NavHostController,
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screens.WISH_LIST_SCREEN,
-    ){
-        composable(route = Screens.CREATE_WISHLIST_ITEM_SCREEN){
+        startDestination = Screens.BOTTOM_TAB_NAVIGATION_WRAPPER,
+    ) {
+        composable(route = Screens.CREATE_WISHLIST_ITEM_SCREEN) {
             CreateWishlistItemScreen(navController = navHostController)
         }
-        composable(route = Screens.WISH_LIST_SCREEN){
-            WishListScreen(navController = navHostController)
+        composable(route = Screens.BOTTOM_TAB_NAVIGATION_WRAPPER) {
+            BottomTabNavigationWrapper(navHostController = navHostController)
         }
     }
 }
