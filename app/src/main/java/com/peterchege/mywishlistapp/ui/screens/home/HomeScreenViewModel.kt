@@ -15,5 +15,53 @@
  */
 package com.peterchege.mywishlistapp.ui.screens.home
 
-class HomeScreenViewModel {
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+
+) :ViewModel(){
+
+    val _itemName = mutableStateOf("")
+    val itemName: State<String> = _itemName
+
+    val _itemAmount = mutableStateOf(0)
+    val itemAmount: State<Int> = _itemAmount
+
+    val _itemQuantity = mutableStateOf(0)
+    val itemQuantity: State<Int> = _itemQuantity
+
+    val _selectedCategoryIndex = mutableStateOf(0)
+    val selectedCategoryIndex: State<Int> = _selectedCategoryIndex
+
+    val _selectedPriorityIndex = mutableStateOf(0)
+    val selectedPriorityIndex: State<Int> = _selectedPriorityIndex
+
+
+    fun onChangeItemName(text:String){
+        _itemName.value = text
+    }
+
+    fun onChangeItemAmount(text:Int){
+        _itemAmount.value = text
+
+    }
+    fun onChangeItemQuantity(text:Int){
+        _itemQuantity.value = text
+
+    }
+    fun onChangeCategoryIndex(text:Int){
+        _selectedCategoryIndex.value = text
+
+    }
+    fun onChangePriorityIndex(text:Int){
+        _selectedPriorityIndex.value = text
+
+    }
+
+
 }

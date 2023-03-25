@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.peterchege.mywishlistapp.R
+import com.peterchege.mywishlistapp.core.util.UiEvent
 import com.peterchege.mywishlistapp.ui.components.OnBoardingCard
+import kotlinx.coroutines.flow.collectLatest
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -41,7 +44,24 @@ fun OnboardingScreen(
     navController: NavController,
     viewModel: OnboardingScreenViewModel = hiltViewModel()
 ) {
+    val scaffoldState = rememberScaffoldState()
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText
+                    )
+                }
+                is UiEvent.Navigate -> {
+                    navController.navigate(route = event.route)
+                }
+                
+            }
+        }
+    }
     Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
@@ -95,6 +115,7 @@ fun OnboardingScreen(
                     backgroundColor = MaterialTheme.colors.surface
                 ),
                 onClick = {
+                    viewModel.onProceed()
 
                 }
             ) {

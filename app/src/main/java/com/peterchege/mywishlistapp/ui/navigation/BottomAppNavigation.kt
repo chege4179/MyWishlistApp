@@ -147,7 +147,7 @@ fun BottomTabNavigator(
     ) {
 
         composable(route = Screens.HOME_SCREEN) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController,navHostController = navHostController)
         }
         composable(route = Screens.ANALYTICS_SCREEN) {
             AnalyticsScreen(navController = navHostController)

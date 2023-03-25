@@ -23,7 +23,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.peterchege.mywishlistapp.core.util.Screens
-import com.peterchege.mywishlistapp.ui.screens.create_wishlist_item.CreateWishlistItemScreen
 import com.peterchege.mywishlistapp.ui.screens.onboarding.OnboardingScreen
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,9 +36,6 @@ fun AppNavigation(
         navController = navHostController,
         startDestination = if (isFirstTimeLaunch) Screens.ONBOARDING_SCREEN else Screens.BOTTOM_TAB_NAVIGATION_WRAPPER,
     ) {
-        composable(route = Screens.CREATE_WISHLIST_ITEM_SCREEN) {
-            CreateWishlistItemScreen(navController = navHostController)
-        }
         composable(route = Screens.ONBOARDING_SCREEN) {
             OnboardingScreen(navController = navHostController)
         }

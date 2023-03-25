@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.create_wishlist_item
+package com.peterchege.mywishlistapp.core.util
 
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+abstract class Event
 
-@HiltViewModel
-class CreateWishlistItemScreenViewModel @Inject constructor(
-
-): ViewModel(){
-
-
+sealed class UiEvent: Event() {
+    data class ShowSnackbar(val uiText: String) : UiEvent()
+    data class Navigate(val route: String) : UiEvent()
 
 
 }

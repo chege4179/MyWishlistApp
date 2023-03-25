@@ -21,7 +21,6 @@ data class WishListItem(
     val quantity: Int,
     val category:String,
     val priority:String,
-    val periodTerm:String,
     val createdAt:String,
-    val isPurchased:String,
+    val isPurchased:Boolean = false,
     )

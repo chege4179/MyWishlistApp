@@ -16,45 +16,175 @@
 package com.peterchege.mywishlistapp.ui.screens.home
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.peterchege.mywishlistapp.core.util.Screens
+import com.peterchege.mywishlistapp.ui.components.AddItemBottomSheet
+import com.peterchege.mywishlistapp.ui.components.MenuSample
 import com.peterchege.mywishlistapp.ui.screens.wishlist_item.WishlistItemScreenViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navController: NavController,
+    navHostController: NavHostController,
     viewModel: WishlistItemScreenViewModel = hiltViewModel()
 ) {
-    Scaffold(
-        modifier= Modifier.fillMaxSize(),
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = MaterialTheme.colors.background,
-                onClick = {
-                    navController.navigate(Screens.CREATE_WISHLIST_ITEM_SCREEN)
+    val coroutineScope = rememberCoroutineScope()
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded},
+        skipHalfExpanded =true
+    )
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
+        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
+        sheetBackgroundColor = MaterialTheme.colors.onBackground,
+
+        sheetContent = {
+            AddItemBottomSheet()
+        }
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .background(MaterialTheme.colors.background)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = CenterVertically,
+                ) {
+                    Text(
+                        text = "Wishlist ",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 30.sp,
+                        style = TextStyle(color = MaterialTheme.colors.primary)
+                    )
                 }
-            ){
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colors.background),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = CenterVertically
+                ) {
+                    TextField(
+                        value = "",
+                        onValueChange = {
+
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Search",
+                                style = TextStyle(color = MaterialTheme.colors.primary)
+                            )
+                        },
+
+                        modifier = Modifier
+                            .fillMaxWidth(0.80f)
+                            .background(
+                                MaterialTheme.colors.onBackground,
+                                shape = RoundedCornerShape(8.dp)
+                            ),
+                        shape = RoundedCornerShape(size = 8.dp),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            autoCorrect = true,
+                            keyboardType = KeyboardType.Text,
+                        ),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colors.primary,
+                            disabledTextColor = MaterialTheme.colors.primary,
+                            backgroundColor = MaterialTheme.colors.onBackground,
+                            focusedIndicatorColor = MaterialTheme.colors.background,
+                            unfocusedIndicatorColor = MaterialTheme.colors.background,
+                            disabledIndicatorColor = MaterialTheme.colors.background
+                        ),
+                        textStyle = TextStyle(color = MaterialTheme.colors.primary),
+                        maxLines = 1,
+                        singleLine = true,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search Product",
+                                modifier = Modifier.size(25.dp)
+
+                            )
+                        }
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(10.dp)
+                            .background(MaterialTheme.colors.onBackground)
+                    )
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                if (modalSheetState.isVisible) {
+                                    modalSheetState.hide()
+                                } else {
+                                    modalSheetState.show()
+                                }
+
+                            }
+                        }) {
+                        Icon(
+                            modifier = Modifier
+                                .size(55.dp)
+                                .clip(shape = RoundedCornerShape(size = 8.dp))
+                                .background(MaterialTheme.colors.onBackground)
+                                .padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.surface
+                        )
+                    }
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                        .background(MaterialTheme.colors.onBackground)
+                )
+                Text(
+                    text = "Your Wishlist",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    style = TextStyle(color = MaterialTheme.colors.primary)
+                )
 
             }
-        },
-
-    ) {
-        Column(
-            modifier= Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "Home Screen"
-            )
 
         }
-
     }
+
 
 }
