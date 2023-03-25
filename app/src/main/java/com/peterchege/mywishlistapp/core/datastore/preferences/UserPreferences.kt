@@ -15,26 +15,37 @@
  */
 package com.peterchege.mywishlistapp.core.datastore.preferences
 
-import android.provider.SyncStateContract
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.peterchege.mywishlistapp.core.util.Constants
+import com.peterchege.mywishlistapp.core.util.Constants.IS_FIRST_TIME_LAUNCH
 import com.peterchege.mywishlistapp.core.util.Constants.THEME_OPTIONS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
 import javax.inject.Inject
 
-class UserSettingsPreferences @Inject constructor(
+class UserPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
+
+    fun getIsFirstTimeLaunch(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[IS_FIRST_TIME_LAUNCH] ?: true
+        }
+    }
+    suspend fun setIsFirstTimeLaunch(){
+        dataStore.edit { preferences ->
+            preferences[IS_FIRST_TIME_LAUNCH] = false
+        }
+    }
 
     suspend fun setTheme(themeValue: String) {
         dataStore.edit { preferences ->
             preferences[THEME_OPTIONS] = themeValue
         }
     }
+
     fun getTheme(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[THEME_OPTIONS] ?: Constants.LIGHT_MODE

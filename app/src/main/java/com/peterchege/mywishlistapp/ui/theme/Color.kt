@@ -22,7 +22,10 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
+val PINK_COLOR = Color(0xFFC1114E)
 val ORANGE_COLOR = Color(0xFFFD8D48)
 val BLACK_COLOR = Color(0xFF1B2524)
 val BLACK_COLOR_VARIANT = Color(0xFF2A3634)
 val WHITE_COLOR = Color.White
+val WHITE_COLOR_VARIANT = Color(0xFFF3F2F9)
+val BLUE_COLOR = Color(0xFF017AFF)

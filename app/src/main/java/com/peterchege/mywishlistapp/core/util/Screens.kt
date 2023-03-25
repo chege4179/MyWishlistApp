@@ -17,6 +17,7 @@ package com.peterchege.mywishlistapp.core.util
 
 object Screens {
     const val CREATE_WISHLIST_ITEM_SCREEN = "CREATE_WISHLIST_ITEM_SCREEN"
+    const val ONBOARDING_SCREEN = "ONBOARDING_SCREEN"
     const val WISHLIST_ITEM_SCREEN ="WISHLIST_SCREEN"
     const val HOME_SCREEN = "HOME_SCREEN"
     const val ANALYTICS_SCREEN ="ANALYTICS_SCREEN"

@@ -9,5 +9,4 @@ data class WishListItem(
     val periodTerm:String,
     val createdAt:String,
     val isPurchased:String,
-
     )

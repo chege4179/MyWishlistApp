@@ -15,14 +15,51 @@
  */
 package com.peterchege.mywishlistapp.core.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
+import com.peterchege.mywishlistapp.core.datastore.preferences.UserPreferences
+import com.peterchege.mywishlistapp.core.util.Constants
+import com.peterchege.mywishlistapp.data.UserPreferenceRepositoryImpl
+import com.peterchege.mywishlistapp.domain.repostory.UserPreferenceRepository
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    @Singleton
+    fun provideDatastorePreferences(@ApplicationContext context: Context):
+            DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = {
+                context.preferencesDataStoreFile(name = Constants.USER_PREFERENCES)
+            }
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferences(dataStore: DataStore<Preferences>): UserPreferences {
+        return UserPreferences(dataStore = dataStore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferencesRepository(userPreferences: UserPreferences):
+            UserPreferenceRepository {
+        return UserPreferenceRepositoryImpl(
+            preferences = userPreferences
+        )
+    }
 
 
 
