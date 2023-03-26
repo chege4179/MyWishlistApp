@@ -17,7 +17,7 @@ package com.peterchege.mywishlistapp.ui.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peterchege.mywishlistapp.domain.repostory.UserPreferenceRepository
+import com.peterchege.mywishlistapp.domain.repository.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

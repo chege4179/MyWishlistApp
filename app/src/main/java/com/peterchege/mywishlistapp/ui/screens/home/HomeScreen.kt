@@ -18,6 +18,8 @@ package com.peterchege.mywishlistapp.ui.screens.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -25,8 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,27 +39,53 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.peterchege.mywishlistapp.core.util.Screens
+import coil.annotation.ExperimentalCoilApi
+import com.peterchege.mywishlistapp.core.util.UiEvent
+import com.peterchege.mywishlistapp.core.util.toExternalModel
 import com.peterchege.mywishlistapp.ui.components.AddItemBottomSheet
-import com.peterchege.mywishlistapp.ui.components.MenuSample
-import com.peterchege.mywishlistapp.ui.screens.wishlist_item.WishlistItemScreenViewModel
+import com.peterchege.mywishlistapp.ui.components.WishlistItemCard
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navController: NavController,
     navHostController: NavHostController,
-    viewModel: WishlistItemScreenViewModel = hiltViewModel()
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+    val scaffoldState = rememberScaffoldState()
+
+    val wishListItems = viewModel.items
+        .collectAsStateWithLifecycle()
+        .value
+        .map { it.toExternalModel() }
+
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText
+                    )
+                }
+                is UiEvent.Navigate -> {
+                    navController.navigate(route = event.route)
+                }
+
+            }
+        }
+    }
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded},
-        skipHalfExpanded =true
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+        skipHalfExpanded = true
     )
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -69,6 +97,7 @@ fun HomeScreen(
         }
     ) {
         Scaffold(
+            scaffoldState = scaffoldState,
             modifier = Modifier.fillMaxSize(),
         ) {
             Column(
@@ -180,6 +209,17 @@ fun HomeScreen(
                     fontSize = 24.sp,
                     style = TextStyle(color = MaterialTheme.colors.primary)
                 )
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(items = wishListItems) { item ->
+                        WishlistItemCard(
+                            item = item,
+                            onNavigate = {
+
+                            })
+                    }
+                }
 
             }
 

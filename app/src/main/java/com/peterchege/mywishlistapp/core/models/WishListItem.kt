@@ -16,11 +16,13 @@
 package com.peterchege.mywishlistapp.core.models
 
 data class WishListItem(
+    val itemId: String,
     val name: String,
     val amount: Int,
     val quantity: Int,
-    val category:String,
-    val priority:String,
-    val createdAt:String,
-    val isPurchased:Boolean = false,
-    )
+    val category: String,
+    val priority: String,
+    val createdAt: String,
+    val imageUrl:String,
+    val isPurchased: Boolean = false,
+)

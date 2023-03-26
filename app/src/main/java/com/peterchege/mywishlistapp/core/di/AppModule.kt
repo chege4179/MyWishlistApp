@@ -15,15 +15,20 @@
  */
 package com.peterchege.mywishlistapp.core.di
 
+import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
 import com.peterchege.mywishlistapp.core.datastore.preferences.UserPreferences
+import com.peterchege.mywishlistapp.core.room.database.WishlistAppDatabase
 import com.peterchege.mywishlistapp.core.util.Constants
 import com.peterchege.mywishlistapp.data.UserPreferenceRepositoryImpl
-import com.peterchege.mywishlistapp.domain.repostory.UserPreferenceRepository
+import com.peterchege.mywishlistapp.data.WishlistRepositoryImpl
+import com.peterchege.mywishlistapp.domain.repository.UserPreferenceRepository
+import com.peterchege.mywishlistapp.domain.repository.WishlistRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +40,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideWishListAppDatabase(
+        app:Application
+    ):WishlistAppDatabase {
+        return Room.databaseBuilder(
+            app,
+            WishlistAppDatabase::class.java,
+            Constants.DATABASE_NAME
+        ).build()
+    }
+
     @Provides
     @Singleton
     fun provideDatastorePreferences(@ApplicationContext context: Context):
@@ -59,6 +77,13 @@ object AppModule {
         return UserPreferenceRepositoryImpl(
             preferences = userPreferences
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideWishListItemRepository(db:WishlistAppDatabase):
+            WishlistRepository {
+        return WishlistRepositoryImpl(db = db)
     }
 
 

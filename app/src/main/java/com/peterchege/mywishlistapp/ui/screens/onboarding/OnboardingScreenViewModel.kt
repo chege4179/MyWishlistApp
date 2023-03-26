@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peterchege.mywishlistapp.core.util.Screens
 import com.peterchege.mywishlistapp.core.util.UiEvent
-import com.peterchege.mywishlistapp.domain.repostory.UserPreferenceRepository
+import com.peterchege.mywishlistapp.domain.repository.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

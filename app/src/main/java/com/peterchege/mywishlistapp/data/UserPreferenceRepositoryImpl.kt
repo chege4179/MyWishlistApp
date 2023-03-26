@@ -15,9 +15,8 @@
  */
 package com.peterchege.mywishlistapp.data
 
-import androidx.datastore.preferences.core.Preferences
 import com.peterchege.mywishlistapp.core.datastore.preferences.UserPreferences
-import com.peterchege.mywishlistapp.domain.repostory.UserPreferenceRepository
+import com.peterchege.mywishlistapp.domain.repository.UserPreferenceRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -28,6 +28,11 @@ object  Constants {
 
     val IS_FIRST_TIME_LAUNCH = booleanPreferencesKey("is_first_time_launch")
 
+    val priorityList = listOf("Long Term", "Short Term")
+    val categoryList = listOf("Personal", "For friends And family")
+
+    const val DATABASE_NAME = "wishlist.db"
+
 
 
 

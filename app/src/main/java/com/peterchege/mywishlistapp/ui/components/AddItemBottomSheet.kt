@@ -28,6 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.peterchege.mywishlistapp.core.util.Constants.categoryList
+import com.peterchege.mywishlistapp.core.util.Constants.priorityList
 import com.peterchege.mywishlistapp.ui.screens.home.HomeScreenViewModel
 
 @Composable
@@ -61,9 +63,15 @@ fun AddItemBottomSheet(
             onValueChange = {
                 viewModel.onChangeItemName(text = it)
             },
-            placeholder = {
+            label = {
                 Text(
                     text = "Name",
+                    style = TextStyle(color = MaterialTheme.colors.primary)
+                )
+            },
+            placeholder = {
+                Text(
+                    text = "Enter the name of your wishlist item",
                     style = TextStyle(color = MaterialTheme.colors.primary)
                 )
             },
@@ -84,11 +92,17 @@ fun AddItemBottomSheet(
                 modifier = Modifier.width(200.dp),
                 value = viewModel.itemAmount.value.toString(),
                 onValueChange = {
-                    viewModel.onChangeItemAmount(text = it.toInt())
+                    viewModel.onChangeItemAmount(text = it)
+                },
+                label = {
+                    Text(
+                        text = "Amount",
+                        style = TextStyle(color = MaterialTheme.colors.primary)
+                    )
                 },
                 placeholder = {
                     Text(
-                        text = "Amount",
+                        text = "Enter the price",
                         style = TextStyle(color = MaterialTheme.colors.primary)
                     )
                 },
@@ -110,14 +124,21 @@ fun AddItemBottomSheet(
                 modifier = Modifier.width(200.dp),
                 value = viewModel.itemQuantity.value.toString(),
                 onValueChange = {
-                    viewModel.onChangeItemQuantity(text = it.toInt())
+                    viewModel.onChangeItemQuantity(text = it)
                 },
-                placeholder = {
+                label = {
                     Text(
                         text = "Quantity",
                         style = TextStyle(color = MaterialTheme.colors.primary)
                     )
                 },
+                placeholder = {
+                    Text(
+                        text = "Enter the quantity",
+                        style = TextStyle(color = MaterialTheme.colors.primary)
+                    )
+                },
+
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = MaterialTheme.colors.surface,
@@ -147,7 +168,7 @@ fun AddItemBottomSheet(
                     onChangeSelectedIndex = {
                         viewModel.onChangeCategoryIndex(text = it)
                     },
-                    menuItems = listOf("Personal", "For friends And family"),
+                    menuItems = categoryList,
                     menuWidth = 200,
                 )
             }
@@ -161,7 +182,7 @@ fun AddItemBottomSheet(
                     onChangeSelectedIndex = {
                         viewModel.onChangePriorityIndex(text = it)
                     },
-                    menuItems = listOf("Long Term", "Short Term"),
+                    menuItems = priorityList,
                     menuWidth = 200
                 )
 
@@ -177,6 +198,7 @@ fun AddItemBottomSheet(
                 backgroundColor = MaterialTheme.colors.surface
             ),
             onClick = {
+                viewModel.saveItem()
             }
         ) {
             Text(
