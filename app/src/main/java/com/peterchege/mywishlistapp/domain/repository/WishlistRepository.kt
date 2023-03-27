@@ -27,5 +27,7 @@ interface WishlistRepository {
 
     suspend fun getWishListItemById(itemId:String):WishlistItemEntity?
 
+    suspend fun deleteWishListItemById(itemId:String)
+
 
 }

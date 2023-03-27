@@ -15,6 +15,8 @@
  */
 package com.peterchege.mywishlistapp.core.util
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -65,6 +67,7 @@ fun firstDayOfMonth(date: String): String {
     return formatter.format(calendar.time)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun generateFormatDate(date: LocalDate):String{
     var dateCount:String;
     var monthCount:String;

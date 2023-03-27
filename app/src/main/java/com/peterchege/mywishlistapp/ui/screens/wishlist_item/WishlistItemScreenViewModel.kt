@@ -23,9 +23,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peterchege.mywishlistapp.core.models.WishListItem
 import com.peterchege.mywishlistapp.core.util.BottomSheets
+import com.peterchege.mywishlistapp.core.util.Screens
+import com.peterchege.mywishlistapp.core.util.UiEvent
 import com.peterchege.mywishlistapp.core.util.toExternalModel
 import com.peterchege.mywishlistapp.domain.repository.WishlistRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,6 +49,9 @@ class WishlistItemScreenViewModel @Inject constructor(
     val _activeBottomSheet = mutableStateOf<BottomSheets?>(null)
     val activeBottomSheet:State<BottomSheets?> = _activeBottomSheet
 
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
     fun onChangeActiveBottomSheet(bottomSheet:BottomSheets){
         _activeBottomSheet.value = bottomSheet
     }
@@ -56,12 +63,24 @@ class WishlistItemScreenViewModel @Inject constructor(
                     val item = repository.getWishListItemById(itemId = id)?.toExternalModel()
                     _wishListItem.value = item
                 }catch (e:Exception){
-                    Log.e("Error",e.localizedMessage ?: "An error occurred")
+
                     Timber.d(e.localizedMessage)
                 }
 
             }
 
+        }
+    }
+
+    fun deleteWishListItem(id:String){
+        viewModelScope.launch {
+            try {
+                repository.deleteWishListItemById(itemId = id)
+                _eventFlow.emit(UiEvent.Navigate(route = Screens.BOTTOM_TAB_NAVIGATION_WRAPPER))
+            }catch (e:Exception){
+                Timber.d(e.localizedMessage)
+
+            }
         }
     }
 }

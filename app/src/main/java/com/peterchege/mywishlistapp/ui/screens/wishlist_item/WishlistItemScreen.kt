@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.peterchege.mywishlistapp.core.util.BottomSheets
+import com.peterchege.mywishlistapp.core.util.UiEvent
 import com.peterchege.mywishlistapp.ui.bottomSheets.DeleteItemBottomSheet
 import com.peterchege.mywishlistapp.ui.bottomSheets.EditItemBottomSheet
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -51,11 +53,27 @@ fun WishListItemScreen(
         confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
         skipHalfExpanded = true
     )
+    val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = viewModel.activeBottomSheet.value){
         if (viewModel.activeBottomSheet.value !== null){
             modalSheetState.show()
         }
 
+    }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText
+                    )
+                }
+                is UiEvent.Navigate -> {
+                    navController.navigate(route = event.route)
+                }
+
+            }
+        }
     }
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -76,6 +94,7 @@ fun WishListItemScreen(
         }
     ){
         Scaffold(
+            scaffoldState = scaffoldState,
             modifier = Modifier.fillMaxSize(),
             topBar = {
                 TopAppBar(

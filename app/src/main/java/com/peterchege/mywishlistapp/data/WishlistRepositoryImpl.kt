@@ -37,4 +37,8 @@ class WishlistRepositoryImpl @Inject constructor(
     override suspend fun getWishListItemById(itemId: String): WishlistItemEntity? {
         return db.wishlistItemEntityDao.getWishListItemById(itemId = itemId)
     }
+
+    override suspend fun deleteWishListItemById(itemId: String) {
+        return db.wishlistItemEntityDao.deleteWishListItemById(itemId = itemId)
+    }
 }

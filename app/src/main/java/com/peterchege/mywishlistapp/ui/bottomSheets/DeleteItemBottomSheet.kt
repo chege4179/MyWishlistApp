@@ -62,7 +62,9 @@ fun DeleteItemBottomSheet(
                 backgroundColor = MaterialTheme.colors.surface
             ),
             onClick = {
-
+                viewModel.wishListItem.value?.let {
+                    viewModel.deleteWishListItem(it.itemId)
+                }
             }
         ) {
             Text(
