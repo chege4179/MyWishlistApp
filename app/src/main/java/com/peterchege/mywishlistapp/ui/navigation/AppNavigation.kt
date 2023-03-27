@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.peterchege.mywishlistapp.core.util.Screens
 import com.peterchege.mywishlistapp.ui.screens.onboarding.OnboardingScreen
+import com.peterchege.mywishlistapp.ui.screens.wishlist_item.WishListItemScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -38,6 +39,9 @@ fun AppNavigation(
     ) {
         composable(route = Screens.ONBOARDING_SCREEN) {
             OnboardingScreen(navController = navHostController)
+        }
+        composable(route = Screens.WISHLIST_ITEM_SCREEN + "/{id}") {
+            WishListItemScreen(navController = navHostController)
         }
         composable(route = Screens.BOTTOM_TAB_NAVIGATION_WRAPPER) {
             BottomTabNavigationWrapper(navHostController = navHostController)

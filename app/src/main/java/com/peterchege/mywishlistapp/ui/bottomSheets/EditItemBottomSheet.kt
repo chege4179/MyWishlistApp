@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.components
+package com.peterchege.mywishlistapp.ui.bottomSheets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,12 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.peterchege.mywishlistapp.core.util.Constants.categoryList
-import com.peterchege.mywishlistapp.core.util.Constants.priorityList
+import com.peterchege.mywishlistapp.core.util.Constants
+import com.peterchege.mywishlistapp.ui.components.MenuSample
 import com.peterchege.mywishlistapp.ui.screens.home.HomeScreenViewModel
 
 @Composable
-fun AddItemBottomSheet(
+fun EditItemBottomSheet(
     viewModel: HomeScreenViewModel = hiltViewModel()
 
 ) {
@@ -69,18 +69,13 @@ fun AddItemBottomSheet(
                     style = TextStyle(color = MaterialTheme.colors.primary)
                 )
             },
-            placeholder = {
-                Text(
-                    text = "Enter the name of your wishlist item",
-                    style = TextStyle(color = MaterialTheme.colors.primary)
-                )
-            },
+
             colors = TextFieldDefaults.textFieldColors(
                 textColor = MaterialTheme.colors.primary,
                 focusedIndicatorColor = MaterialTheme.colors.surface,
 
                 ),
-            )
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -100,12 +95,7 @@ fun AddItemBottomSheet(
                         style = TextStyle(color = MaterialTheme.colors.primary)
                     )
                 },
-                placeholder = {
-                    Text(
-                        text = "Enter the price",
-                        style = TextStyle(color = MaterialTheme.colors.primary)
-                    )
-                },
+
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = MaterialTheme.colors.surface,
@@ -132,13 +122,6 @@ fun AddItemBottomSheet(
                         style = TextStyle(color = MaterialTheme.colors.primary)
                     )
                 },
-                placeholder = {
-                    Text(
-                        text = "Enter the quantity",
-                        style = TextStyle(color = MaterialTheme.colors.primary)
-                    )
-                },
-
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = MaterialTheme.colors.surface,
@@ -168,7 +151,7 @@ fun AddItemBottomSheet(
                     onChangeSelectedIndex = {
                         viewModel.onChangeCategoryIndex(text = it)
                     },
-                    menuItems = categoryList,
+                    menuItems = Constants.categoryList,
                     menuWidth = 200,
                 )
             }
@@ -182,7 +165,7 @@ fun AddItemBottomSheet(
                     onChangeSelectedIndex = {
                         viewModel.onChangePriorityIndex(text = it)
                     },
-                    menuItems = priorityList,
+                    menuItems = Constants.priorityList,
                     menuWidth = 200
                 )
 

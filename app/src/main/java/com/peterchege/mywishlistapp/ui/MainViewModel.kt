@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.screens.settings
+package com.peterchege.mywishlistapp.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.peterchege.mywishlistapp.domain.repository.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsScreenViewModel @Inject constructor(
-    private val userPreferenceRepository: UserPreferenceRepository
-) :ViewModel(){
+class MainViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferenceRepository
+) : ViewModel(){
 
-    val theme = userPreferenceRepository.getTheme()
+    val theme = userPreferencesRepository.getTheme()
 
-    fun updateTheme(themeValue: String) {
-        viewModelScope.launch {
-            userPreferenceRepository.setTheme(themeValue = themeValue)
 
-        }
-    }
+
+
 }

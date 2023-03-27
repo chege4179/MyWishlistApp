@@ -114,7 +114,7 @@ fun BottomTabNavigationWrapper(
                         icon = Icons.Default.Analytics
                     ),
                     BottomNavItem(
-                        name = "Orders",
+                        name = "Settings",
                         route = Screens.SETTINGS_SCREEN,
                         icon = Icons.Filled.Settings
                     ),

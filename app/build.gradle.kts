@@ -126,6 +126,7 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-extended:1.4.0-beta02")
 
 
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
     //timber
     implementation("com.jakewharton.timber:timber:5.0.1")
 

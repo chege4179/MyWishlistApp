@@ -16,28 +16,70 @@
 package com.peterchege.mywishlistapp.ui.screens.settings
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.peterchege.mywishlistapp.core.util.Constants
+import com.peterchege.mywishlistapp.ui.components.SettingsRow
+import com.peterchege.mywishlistapp.ui.screens.wishlist_item.TopRightIcons
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SettingsScreen(
     navController: NavController,
+    viewModel:SettingsScreenViewModel = hiltViewModel()
 
 ) {
+    val theme = viewModel.theme.collectAsStateWithLifecycle(initialValue = Constants.LIGHT_MODE)
+    val context = LocalContext.current
     Scaffold(
         modifier= Modifier.fillMaxSize(),
-
+        topBar = {
+            TopAppBar(
+                backgroundColor = MaterialTheme.colors.onBackground,
+                title = {
+                    Text(
+                        style = TextStyle(color = MaterialTheme.colors.primary),
+                        text = "Settings",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp
+                    )
+                },
+            )
+        },
     ) {
         Column(
-            modifier= Modifier.fillMaxSize()
+            modifier= Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Text(
-                text = "Settings Screen"
+            SettingsRow(
+                title = "Dark Theme",
+                checked =  theme.value == Constants.DARK_MODE,
+                onCheckedChange ={
+                    if (it){
+                        viewModel.updateTheme(themeValue = Constants.DARK_MODE)
+                    }else{
+                        viewModel.updateTheme(themeValue = Constants.LIGHT_MODE)
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.fillMaxWidth().height(16.dp))
+            SettingsRow(
+                title = "Enable Notifications",
+                checked =  false,
+                onCheckedChange ={
+
+                }
             )
 
         }

@@ -30,13 +30,13 @@ interface WishListItemEntityDao {
     fun getAllWishlistItems():Flow<List<WishlistItemEntity>>
 
     @Query("SELECT * FROM wishlist WHERE itemId = :itemId")
-    fun getWishListItemById(itemId:String):WishlistItemEntity?
+    suspend fun getWishListItemById(itemId:String):WishlistItemEntity?
 
     @Query("DELETE FROM wishlist ")
     suspend fun deleteAllWishListItems()
 
     @Query("DELETE  FROM wishlist WHERE itemId = :itemId")
-    fun deleteWishListItemById(itemId:String)
+    suspend fun deleteWishListItemById(itemId:String)
 
 
 

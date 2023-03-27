@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
+import com.peterchege.mywishlistapp.core.util.Screens
 import com.peterchege.mywishlistapp.core.util.UiEvent
 import com.peterchege.mywishlistapp.core.util.toExternalModel
 import com.peterchege.mywishlistapp.ui.components.AddItemBottomSheet
@@ -216,6 +217,9 @@ fun HomeScreen(
                         WishlistItemCard(
                             item = item,
                             onNavigate = {
+                                navHostController.navigate(
+                                    route = Screens.WISHLIST_ITEM_SCREEN + "/${it}"
+                                )
 
                             })
                     }
