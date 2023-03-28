@@ -56,6 +56,9 @@ fun OnboardingScreen(
                 is UiEvent.Navigate -> {
                     navController.navigate(route = event.route)
                 }
+                is UiEvent.CloseBottomSheet -> {
+
+                }
                 
             }
         }

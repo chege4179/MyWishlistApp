@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.peterchege.mywishlistapp.core.models.WishListItem
+import com.peterchege.mywishlistapp.core.util.formatDecimalSeparator
 
 @ExperimentalCoilApi
 @Composable
@@ -98,7 +99,7 @@ fun WishlistItemCard(
 
             }
             Text(
-                text = "KES ${item.amount} /=",
+                text = "KES ${item.amount.formatDecimalSeparator()} /=",
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold,
                 style = TextStyle(color = MaterialTheme.colors.primary)

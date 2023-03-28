@@ -29,12 +29,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.peterchege.mywishlistapp.core.util.Constants
+import com.peterchege.mywishlistapp.core.util.Constants.categoryList
+import com.peterchege.mywishlistapp.core.util.Constants.priorityList
+import com.peterchege.mywishlistapp.core.util.isNumeric
 import com.peterchege.mywishlistapp.ui.components.MenuSample
-import com.peterchege.mywishlistapp.ui.screens.home.HomeScreenViewModel
+import com.peterchege.mywishlistapp.ui.screens.wishlist_item.WishlistItemScreenViewModel
 
 @Composable
 fun EditItemBottomSheet(
-    viewModel: HomeScreenViewModel = hiltViewModel()
+    viewModel: WishlistItemScreenViewModel = hiltViewModel()
 
 ) {
     Column(
@@ -44,156 +47,174 @@ fun EditItemBottomSheet(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                text = "Add a new wishlist Item ",
-                fontWeight = FontWeight.Bold,
-                style = TextStyle(color = MaterialTheme.colors.primary)
-            )
-        }
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = viewModel.itemName.value,
-            onValueChange = {
-                viewModel.onChangeItemName(text = it)
-            },
-            label = {
-                Text(
-                    text = "Name",
-                    style = TextStyle(color = MaterialTheme.colors.primary)
-                )
-            },
-
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colors.primary,
-                focusedIndicatorColor = MaterialTheme.colors.surface,
-
-                ),
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-            TextField(
-                modifier = Modifier.width(200.dp),
-                value = viewModel.itemAmount.value.toString(),
-                onValueChange = {
-                    viewModel.onChangeItemAmount(text = it)
-                },
-                label = {
-                    Text(
-                        text = "Amount",
-                        style = TextStyle(color = MaterialTheme.colors.primary)
-                    )
-                },
-
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = MaterialTheme.colors.primary,
-                    focusedIndicatorColor = MaterialTheme.colors.surface,
-
-                    ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                ),
-            )
-            Spacer(
+        viewModel.editWishListItem.value?.let { wishlistItem ->
+            Row(
                 modifier = Modifier
-                    .width(10.dp)
-
-            )
+                    .fillMaxWidth()
+                    .height(50.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = "Add a new wishlist Item ",
+                    fontWeight = FontWeight.Bold,
+                    style = TextStyle(color = MaterialTheme.colors.primary)
+                )
+            }
             TextField(
-                modifier = Modifier.width(200.dp),
-                value = viewModel.itemQuantity.value.toString(),
+                modifier = Modifier.fillMaxWidth(),
+                value = wishlistItem.name,
                 onValueChange = {
-                    viewModel.onChangeItemQuantity(text = it)
+                    viewModel._editWishListItem.value = wishlistItem.copy(name = it)
+
                 },
                 label = {
                     Text(
-                        text = "Quantity",
+                        text = "Name",
                         style = TextStyle(color = MaterialTheme.colors.primary)
                     )
                 },
+
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colors.primary,
                     focusedIndicatorColor = MaterialTheme.colors.surface,
 
                     ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                TextField(
+                    modifier = Modifier.width(200.dp),
+                    value = wishlistItem.amount.toString(),
+                    onValueChange = {text ->
+                        if (text.isBlank()) {
+                            viewModel._editWishListItem.value = wishlistItem.copy(amount = 0)
+                            return@TextField
+                        }
+                        if (isNumeric(text)) {
+                            viewModel._editWishListItem.value = wishlistItem.copy(amount = text.toInt())
+
+                        }
+
+
+                    },
+                    label = {
+                        Text(
+                            text = "Amount",
+                            style = TextStyle(color = MaterialTheme.colors.primary)
+                        )
+                    },
+
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = MaterialTheme.colors.primary,
+                        focusedIndicatorColor = MaterialTheme.colors.surface,
+
+                        ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                    ),
+                )
+                Spacer(
+                    modifier = Modifier
+                        .width(10.dp)
+
+                )
+                TextField(
+                    modifier = Modifier.width(200.dp),
+                    value = wishlistItem.quantity.toString(),
+                    onValueChange = { text ->
+                        if (text.isBlank()) {
+                            viewModel._editWishListItem.value = wishlistItem.copy(quantity = 0)
+                            return@TextField
+                        }
+                        if (isNumeric(text)) {
+                            viewModel._editWishListItem.value = wishlistItem.copy(quantity = text.toInt())
+
+                        }
+                    },
+                    label = {
+                        Text(
+                            text = "Quantity",
+                            style = TextStyle(color = MaterialTheme.colors.primary)
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = MaterialTheme.colors.primary,
+                        focusedIndicatorColor = MaterialTheme.colors.surface,
+
+                        ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                    ),
+                )
+
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                Column() {
+                    Text(
+                        text = "Category",
+                        style = TextStyle(color = MaterialTheme.colors.primary)
+                    )
+
+                    MenuSample(
+                        selectedIndex = categoryList.indexOf(wishlistItem.category),
+                        onChangeSelectedIndex = {
+                            viewModel._editWishListItem.value = wishlistItem.copy(category = categoryList[it])
+                        },
+                        menuItems = categoryList,
+                        menuWidth = 200,
+                    )
+                }
+                Column() {
+                    Text(
+                        text = "Priority",
+                        style = TextStyle(color = MaterialTheme.colors.primary)
+                    )
+                    MenuSample(
+                        selectedIndex = priorityList.indexOf(wishlistItem.priority),
+                        onChangeSelectedIndex = {
+                            viewModel._editWishListItem.value = wishlistItem.copy(priority = priorityList[it])
+                        },
+                        menuItems = Constants.priorityList,
+                        menuWidth = 200
+                    )
+
+                }
+
+            }
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .clip(RoundedCornerShape(10.dp)),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.surface
                 ),
-            )
-
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
-            Column() {
+                onClick = {
+                    viewModel.editItem()
+                }
+            ) {
                 Text(
-                    text = "Category",
-                    style = TextStyle(color = MaterialTheme.colors.primary)
-                )
-
-                MenuSample(
-                    selectedIndex = viewModel.selectedCategoryIndex.value,
-                    onChangeSelectedIndex = {
-                        viewModel.onChangeCategoryIndex(text = it)
-                    },
-                    menuItems = Constants.categoryList,
-                    menuWidth = 200,
-                )
-            }
-            Column() {
-                Text(
-                    text = "Priority",
-                    style = TextStyle(color = MaterialTheme.colors.primary)
-                )
-                MenuSample(
-                    selectedIndex = viewModel.selectedPriorityIndex.value,
-                    onChangeSelectedIndex = {
-                        viewModel.onChangePriorityIndex(text = it)
-                    },
-                    menuItems = Constants.priorityList,
-                    menuWidth = 200
+                    text = "Save Changes",
+                    fontWeight = FontWeight.Bold,
+                    style = TextStyle(
+                        color = MaterialTheme.colors.primary
+                    )
                 )
 
             }
-
         }
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .clip(RoundedCornerShape(10.dp)),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface
-            ),
-            onClick = {
-                viewModel.saveItem()
-            }
-        ) {
-            Text(
-                text = "Save",
-                fontWeight = FontWeight.Bold,
-                style = TextStyle(
-                    color = MaterialTheme.colors.primary
-                )
-            )
-
-        }
-
 
     }
 }

@@ -28,7 +28,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,8 +62,10 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
+    val searchText = viewModel.searchText.collectAsStateWithLifecycle()
+    val isSearching = viewModel.isSearching.collectAsStateWithLifecycle()
 
-    val wishListItems = viewModel.items
+    val wishListItems = viewModel.searchResults
         .collectAsStateWithLifecycle()
         .value
         .map { it.toExternalModel() }
@@ -79,6 +83,7 @@ fun HomeScreen(
                     navController.navigate(route = event.route)
                 }
 
+                else -> {}
             }
         }
     }
@@ -128,10 +133,8 @@ fun HomeScreen(
                     verticalAlignment = CenterVertically
                 ) {
                     TextField(
-                        value = "",
-                        onValueChange = {
-
-                        },
+                        value = searchText.value,
+                        onValueChange = viewModel::onSearchTextChange,
                         placeholder = {
                             Text(
                                 text = "Search",
@@ -210,6 +213,14 @@ fun HomeScreen(
                     fontSize = 24.sp,
                     style = TextStyle(color = MaterialTheme.colors.primary)
                 )
+                if (isSearching.value){
+                    Box(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colors.surface,
+                            modifier = Modifier.size(32.dp).align(Alignment.Center))
+                    }
+
+                }
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth()
                 ) {

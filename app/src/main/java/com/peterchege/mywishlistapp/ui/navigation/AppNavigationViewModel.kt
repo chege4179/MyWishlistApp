@@ -32,7 +32,7 @@ class AppNavigationViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = true
+            initialValue = false
         )
 
 

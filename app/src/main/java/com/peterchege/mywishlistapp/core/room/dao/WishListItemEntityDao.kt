@@ -27,17 +27,22 @@ interface WishListItemEntityDao {
     suspend fun insertWishlistItem(wishlistItemEntity: WishlistItemEntity)
 
     @Query("SELECT * FROM wishlist")
-    fun getAllWishlistItems():Flow<List<WishlistItemEntity>>
+    fun getAllWishlistItems(): Flow<List<WishlistItemEntity>>
 
     @Query("SELECT * FROM wishlist WHERE itemId = :itemId")
-    suspend fun getWishListItemById(itemId:String):WishlistItemEntity?
+    suspend fun getWishListItemById(itemId: String): WishlistItemEntity?
 
     @Query("DELETE FROM wishlist ")
     suspend fun deleteAllWishListItems()
 
     @Query("DELETE  FROM wishlist WHERE itemId = :itemId")
-    suspend fun deleteWishListItemById(itemId:String)
+    suspend fun deleteWishListItemById(itemId: String)
 
+    @Query("UPDATE wishlist  SET name= :name ,amount = :amount, quantity = :quantity , priority = :priority ,category = :category WHERE itemId = :itemId")
+    suspend fun updateWishListItemById(
+        itemId: String, name: String, amount: Int,
+        quantity: Int, category: String, priority: String
+    )
 
 
 }

@@ -33,3 +33,11 @@ fun randomColorCode(): String {
 fun isNumeric(toCheck: String): Boolean {
     return toCheck.all { char -> char.isDigit() }
 }
+
+fun Int.formatDecimalSeparator(): String {
+    return toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(",")
+        .reversed()
+}

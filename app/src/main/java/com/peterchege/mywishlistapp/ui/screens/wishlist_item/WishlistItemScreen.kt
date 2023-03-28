@@ -71,7 +71,13 @@ fun WishListItemScreen(
                 is UiEvent.Navigate -> {
                     navController.navigate(route = event.route)
                 }
+                is UiEvent.CloseBottomSheet -> {
+                    modalSheetState.hide()
+                }
 
+                else -> {
+
+                }
             }
         }
     }

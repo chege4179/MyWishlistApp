@@ -41,4 +41,19 @@ class WishlistRepositoryImpl @Inject constructor(
     override suspend fun deleteWishListItemById(itemId: String) {
         return db.wishlistItemEntityDao.deleteWishListItemById(itemId = itemId)
     }
+
+    override suspend fun updateWishListItemById(
+        itemId: String,
+        name: String,
+        amount: Int,
+        quantity: Int,
+        category: String,
+        priority: String
+    ) {
+        return db.wishlistItemEntityDao.updateWishListItemById(
+            itemId = itemId, name = name,
+            amount = amount, quantity = quantity,
+            category = category, priority = priority
+        )
+    }
 }

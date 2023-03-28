@@ -15,24 +15,21 @@
  */
 package com.peterchege.mywishlistapp.ui.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peterchege.mywishlistapp.core.models.WishListItem
 import com.peterchege.mywishlistapp.core.room.entities.WishlistItemEntity
+import com.peterchege.mywishlistapp.core.util.*
 import com.peterchege.mywishlistapp.core.util.Constants.categoryList
 import com.peterchege.mywishlistapp.core.util.Constants.priorityList
-import com.peterchege.mywishlistapp.core.util.UiEvent
-import com.peterchege.mywishlistapp.core.util.generateAvatarURL
-import com.peterchege.mywishlistapp.core.util.generateFormatDate
-import com.peterchege.mywishlistapp.core.util.isNumeric
 import com.peterchege.mywishlistapp.domain.repository.WishlistRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.UUID
@@ -50,6 +47,36 @@ class HomeScreenViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = emptyList()
         )
+
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
+
+    fun onSearchTextChange(text: String) {
+        _searchText.value = text
+    }
+
+    val searchResults = searchText
+        .onEach { _isSearching.update { true } }
+        .combine(items) { text, items ->
+            if(text.isBlank()) {
+                items
+            } else {
+                delay(500L)
+                items.filter {
+                    it.toExternalModel().doesMatchSearchQuery(text)
+                }
+            }
+        }
+        .onEach { _isSearching.update { false } }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            items.value
+        )
+
+    private val _isSearching = MutableStateFlow(false)
+    val isSearching = _isSearching.asStateFlow()
+
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -108,6 +135,7 @@ class HomeScreenViewModel @Inject constructor(
         _selectedPriorityIndex.value = text
 
     }
+
     fun saveItem(){
         viewModelScope.launch {
             if (_itemName.value == ""){
@@ -122,6 +150,8 @@ class HomeScreenViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.ShowSnackbar(uiText = "Quantity is required"))
                 return@launch
             }
+            val createdAt = if (Build.VERSION.SDK_INT >= 26) generateFormatDate(date = LocalDate.now())
+            else ""
             val newItem =  WishListItem(
                 itemId = UUID.randomUUID().toString(),
                 name = _itemName.value,
@@ -129,7 +159,7 @@ class HomeScreenViewModel @Inject constructor(
                 quantity = _itemQuantity.value,
                 category = categoryList[_selectedCategoryIndex.value],
                 priority = priorityList[_selectedPriorityIndex.value],
-                createdAt =generateFormatDate(date = LocalDate.now()),
+                createdAt = createdAt,
                 isPurchased = false,
                 imageUrl = generateAvatarURL(name = _itemName.value)
             )

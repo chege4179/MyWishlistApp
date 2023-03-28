@@ -21,5 +21,7 @@ sealed class UiEvent: Event() {
     data class ShowSnackbar(val uiText: String) : UiEvent()
     data class Navigate(val route: String) : UiEvent()
 
+    data class CloseBottomSheet(val bottomSheets: BottomSheets):UiEvent()
+
 
 }

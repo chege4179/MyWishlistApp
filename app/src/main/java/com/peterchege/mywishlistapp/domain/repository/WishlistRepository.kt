@@ -29,5 +29,10 @@ interface WishlistRepository {
 
     suspend fun deleteWishListItemById(itemId:String)
 
+    suspend fun updateWishListItemById(
+        itemId: String, name: String, amount: Int,
+        quantity: Int, category: String, priority: String
+    )
+
 
 }
