@@ -15,25 +15,22 @@
  */
 package com.peterchege.mywishlistapp
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.*
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-import org.junit.Test
-import org.junit.runner.RunWith
+class MainDispatcherRule @OptIn(ExperimentalCoroutinesApi::class) constructor(
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+) : TestWatcher() {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun starting(description: Description) {
+        Dispatchers.setMain(testDispatcher)
+    }
 
-import org.junit.Assert.*
-
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.peterchege.mywishlistapp", appContext.packageName)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun finished(description: Description) {
+        Dispatchers.resetMain()
     }
 }

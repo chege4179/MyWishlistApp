@@ -38,7 +38,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val repository: WishlistRepository,
-
 ) :ViewModel(){
 
     val items = repository.getAllWishlistItems()

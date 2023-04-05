@@ -28,12 +28,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -46,9 +46,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import com.peterchege.mywishlistapp.core.util.Screens
+import com.peterchege.mywishlistapp.core.util.TestTags
 import com.peterchege.mywishlistapp.core.util.UiEvent
 import com.peterchege.mywishlistapp.core.util.toExternalModel
-import com.peterchege.mywishlistapp.ui.components.AddItemBottomSheet
+import com.peterchege.mywishlistapp.ui.bottomSheets.AddItemBottomSheet
 import com.peterchege.mywishlistapp.ui.components.WishlistItemCard
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -121,7 +122,8 @@ fun HomeScreen(
                         text = "Wishlist ",
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
-                        style = TextStyle(color = MaterialTheme.colors.primary)
+                        style = TextStyle(color = MaterialTheme.colors.primary),
+                        modifier = Modifier.testTag(tag = TestTags.HOME_SCREEN_HEADER)
                     )
                 }
 
@@ -147,7 +149,9 @@ fun HomeScreen(
                             .background(
                                 MaterialTheme.colors.onBackground,
                                 shape = RoundedCornerShape(8.dp)
-                            ),
+                            )
+                            .testTag(tag = TestTags.HOME_SCREEN_SEARCH_BAR)
+                        ,
                         shape = RoundedCornerShape(size = 8.dp),
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Words,
@@ -195,7 +199,9 @@ fun HomeScreen(
                                 .size(55.dp)
                                 .clip(shape = RoundedCornerShape(size = 8.dp))
                                 .background(MaterialTheme.colors.onBackground)
-                                .padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                                .padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)
+                                .testTag(tag = TestTags.HOME_SCREEN_ADD_ITEM_ICON)
+                            ,
                             imageVector = Icons.Default.Add,
                             contentDescription = null,
                             tint = MaterialTheme.colors.surface
@@ -213,11 +219,14 @@ fun HomeScreen(
                     fontSize = 24.sp,
                     style = TextStyle(color = MaterialTheme.colors.primary)
                 )
-                if (isSearching.value){
-                    Box(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                if (isSearching.value) {
+                    Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         CircularProgressIndicator(
                             color = MaterialTheme.colors.surface,
-                            modifier = Modifier.size(32.dp).align(Alignment.Center))
+                            modifier = Modifier
+                                .size(32.dp)
+                                .align(Alignment.Center)
+                        )
                     }
 
                 }

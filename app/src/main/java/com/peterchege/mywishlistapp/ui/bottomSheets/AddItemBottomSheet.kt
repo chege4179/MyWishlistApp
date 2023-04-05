@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.peterchege.mywishlistapp.ui.components
+package com.peterchege.mywishlistapp.ui.bottomSheets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.peterchege.mywishlistapp.core.util.Constants.categoryList
 import com.peterchege.mywishlistapp.core.util.Constants.priorityList
+import com.peterchege.mywishlistapp.ui.components.MenuSample
 import com.peterchege.mywishlistapp.ui.screens.home.HomeScreenViewModel
 
 @Composable

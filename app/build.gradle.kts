@@ -65,6 +65,7 @@ android {
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            exclude("META-INF/**")
         }
     }
 }
@@ -72,28 +73,28 @@ android {
 dependencies {
 
     implementation ("androidx.core:core-ktx:1.9.0")
-    implementation ("androidx.compose.ui:ui:1.4.0-beta02")
-    implementation ("androidx.compose.material:material:1.4.0-beta02")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.4.0-beta02")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation ("androidx.activity:activity-compose:1.6.1")
+    implementation ("androidx.compose.ui:ui:1.5.0-alpha01")
+    implementation ("androidx.compose.material:material:1.5.0-alpha01")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha01")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation ("androidx.activity:activity-compose:1.7.0")
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.4.0-beta02")
-    debugImplementation ("androidx.compose.ui:ui-tooling:1.4.0-beta02")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.4.0-beta02")
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.5.0-alpha01")
+    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.0-alpha01")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.0-alpha01")
 
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("androidx.compose.foundation:foundation:1.3.1")
-    implementation("androidx.compose.foundation:foundation-layout:1.3.1")
+    implementation("androidx.compose.foundation:foundation:1.4.0")
+    implementation("androidx.compose.foundation:foundation-layout:1.4.0")
     implementation ("androidx.navigation:navigation-compose:2.5.3")
 
 
     // view model
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-rc01")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 
     //paging
     implementation("androidx.paging:paging-common-ktx:3.1.1")
@@ -116,14 +117,14 @@ dependencies {
     implementation ("io.coil-kt:coil-compose:2.2.2")
 
     // room
-    implementation ("androidx.room:room-runtime:2.5.0")
-    kapt ("androidx.room:room-compiler:2.5.0")
-    implementation ("androidx.room:room-ktx:2.5.0")
-    implementation("androidx.room:room-paging:2.5.0")
-    implementation("androidx.room:room-ktx:2.5.0")
+    implementation ("androidx.room:room-runtime:2.5.1")
+    kapt ("androidx.room:room-compiler:2.5.1")
+    implementation ("androidx.room:room-ktx:2.5.1")
+    implementation("androidx.room:room-paging:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
 
     // compose icons
-    implementation ("androidx.compose.material:material-icons-extended:1.4.0-beta02")
+    implementation ("androidx.compose.material:material-icons-extended:1.5.0-alpha01")
 
 
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
@@ -133,9 +134,27 @@ dependencies {
 
     // date picker
     implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
-    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.2")
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.3")
 
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation ("app.cash.turbine:turbine:0.7.0")
+
+    testImplementation ("io.mockk:mockk:1.13.4")
+    androidTestImplementation ("io.mockk:mockk-android:1.13.4")
+
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+    // Instrumentation tests
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.45")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:2.45")
+    androidTestImplementation ("junit:junit:4.13.2")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation ("com.google.truth:truth:1.1.3")
+
+    androidTestImplementation ("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation( "com.squareup.okhttp3:mockwebserver:4.9.3")
+    androidTestImplementation( "io.mockk:mockk-android:1.13.4")
+    androidTestImplementation ("androidx.test:runner:1.5.2")
+
+
 }
