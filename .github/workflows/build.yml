@@ -14,6 +14,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Create Google Services JSON
+        run: cat /home/runner/work/MyWishlistApp/MyWishlistApp/app/google-services.json | base64
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/MyWishlistApp/MyWishlistApp/app/google-services.json
+
       - name: Cache gradle
         uses: actions/cache@v1
         with:
