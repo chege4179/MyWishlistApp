@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppNavigationViewModel @Inject constructor(
-    private val repository: UserPreferenceRepository
+    repository: UserPreferenceRepository
 ):ViewModel() {
 
     val isFirstTimeLaunch = repository.getIsFirstTimeLaunch()

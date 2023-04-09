@@ -19,6 +19,8 @@ plugins {
     id ("kotlin-android")
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -72,18 +74,20 @@ android {
 
 dependencies {
 
-    implementation ("androidx.core:core-ktx:1.9.0")
-    implementation ("androidx.compose.ui:ui:1.5.0-alpha01")
-    implementation ("androidx.compose.material:material:1.5.0-alpha01")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha01")
+    implementation ("androidx.core:core-ktx:1.10.0")
+    implementation ("androidx.compose.ui:ui:1.5.0-alpha02")
+    implementation ("androidx.compose.material:material:1.5.0-alpha02")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha02")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.activity:activity-compose:1.7.0")
+    implementation("com.google.firebase:firebase-crashlytics:18.3.6")
+    implementation("com.google.firebase:firebase-analytics:21.2.1")
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.5.0-alpha01")
-    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.0-alpha01")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.0-alpha01")
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.5.0-alpha02")
+    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.0-alpha02")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.0-alpha02")
 
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.compose.foundation:foundation:1.4.0")
@@ -124,7 +128,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.1")
 
     // compose icons
-    implementation ("androidx.compose.material:material-icons-extended:1.5.0-alpha01")
+    implementation ("androidx.compose.material:material-icons-extended:1.5.0-alpha02")
 
 
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")

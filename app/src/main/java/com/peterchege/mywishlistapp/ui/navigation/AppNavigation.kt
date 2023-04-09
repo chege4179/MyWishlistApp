@@ -15,8 +15,12 @@
  */
 package com.peterchege.mywishlistapp.ui.navigation
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -33,9 +37,15 @@ fun AppNavigation(
     viewModel: AppNavigationViewModel = hiltViewModel()
 ) {
     val isFirstTimeLaunch = viewModel.isFirstTimeLaunch.collectAsStateWithLifecycle().value
+    val activity = (LocalContext.current as? Activity)
+    LaunchedEffect(key1 = isFirstTimeLaunch){
+        if (!isFirstTimeLaunch){
+            navHostController.navigate(Screens.BOTTOM_TAB_NAVIGATION_WRAPPER)
+        }
+    }
     NavHost(
         navController = navHostController,
-        startDestination = if (isFirstTimeLaunch) Screens.ONBOARDING_SCREEN else Screens.BOTTOM_TAB_NAVIGATION_WRAPPER,
+        startDestination = Screens.ONBOARDING_SCREEN,
     ) {
         composable(route = Screens.ONBOARDING_SCREEN) {
             OnboardingScreen(navController = navHostController)
@@ -44,6 +54,10 @@ fun AppNavigation(
             WishListItemScreen(navController = navHostController)
         }
         composable(route = Screens.BOTTOM_TAB_NAVIGATION_WRAPPER) {
+            BackHandler(enabled = true) {
+                activity?.finish()
+
+            }
             BottomTabNavigationWrapper(navHostController = navHostController)
         }
     }
